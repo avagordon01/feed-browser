@@ -8,6 +8,7 @@ import time
 import configparser
 import webbrowser
 import glob
+import itertools
 
 config_dir = os.environ.get('XDG_CONFIG_HOME') or os.path.expandvars(os.path.join('$HOME', '.config'))
 config_dir = os.path.join(config_dir, 'feed-browser')
@@ -19,10 +20,11 @@ try:
 except KeyError:
     last_read = time.gmtime(0)
 
-opml_filename = glob.glob(os.path.join(config_dir, '*.opml'))[0]
-opml_file = opml.parse(opml_filename)
-
-rss_urls = [x.xmlUrl for y in opml_file for x in y]
+rss_urls = []
+for filename in glob.glob(os.path.join(config_dir, '*.opml')):
+    opml_file = opml.parse(filename)
+    rss_urls.extend([x.xmlUrl for x in itertools.chain.from_iterable(opml_file)])
+rss_urls = set(rss_urls)
 
 def load_url(rss_url):
     return feedparser.parse(rss_url)
