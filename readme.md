@@ -2,10 +2,10 @@
 
 Opens unread entries in RSS/ATOM feeds defined by .opml files in tabs in your browser.
 
-## Depends
+## Install
 
-```sudo pip install opml feedparser```
+```sudo pip3 install feed-browser```
 
 ## Config
 
-Either `$XDG_CONFIG_DIR/feed-browser` or `$HOME/.config/feed-browser` should contain an opml file you wish to follow.
+Either `$XDG_CONFIG_HOME/feed-browser` or `$HOME/.config/feed-browser` should contain opml files you wish to follow.
