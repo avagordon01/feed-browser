@@ -9,3 +9,7 @@ Opens unread entries in RSS/ATOM feeds defined by .opml files in tabs in your br
 ## Config
 
 Either `$XDG_CONFIG_HOME/feed-browser` or `$HOME/.config/feed-browser` should contain opml files you wish to follow.
+
+## Usage
+
+```feed-browser```
