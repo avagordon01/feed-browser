@@ -31,9 +31,7 @@ def load_url(rss_url):
 with concurrent.futures.ThreadPoolExecutor(max_workers = 256) as executor:
     feeds = executor.map(load_url, rss_urls)
 
-entries = []
-for feed in feeds:
-    entries.extend(feed["items"])
+entries = [item for feed in feeds for item in feed['items']]
 
 def entry_time(entry):
     if 'updated_parsed' in entry:
@@ -44,9 +42,7 @@ def entry_time(entry):
         return t
     else:
         return time.gmtime(0)
-def new_entry(entry):
-    return entry_time(entry) > last_read
-entries = sorted(filter(new_entry, entries), key=entry_time, reverse=True)
+entries = sorted([x for x in entries if entry_time(x) > last_read], key=entry_time, reverse=True)
 
 for x in entries:
     webbrowser.open(x.link)
