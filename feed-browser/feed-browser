@@ -34,10 +34,10 @@ with concurrent.futures.ThreadPoolExecutor(max_workers = 256) as executor:
 entries = [item for feed in feeds for item in feed['items']]
 
 def entry_time(entry):
-    if 'updated_parsed' in entry:
-        t = entry['updated_parsed']
-    elif 'published_parsed' in entry:
+    if 'published_parsed' in entry:
         t = entry['published_parsed']
+    elif 'updated_parsed' in entry:
+        t = entry['updated_parsed']
     if t is not None:
         return t
     else:
