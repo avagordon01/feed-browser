@@ -42,7 +42,7 @@ def entry_time(entry):
         return t
     else:
         return time.gmtime(0)
-entries = sorted([x for x in entries if entry_time(x) > last_read], key=entry_time, reverse=True)
+entries = sorted([x for x in entries if entry_time(x) > last_read], key=entry_time)
 
 for x in entries:
     webbrowser.open(x.link)
