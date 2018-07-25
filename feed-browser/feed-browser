@@ -35,17 +35,15 @@ entries = [item for feed in feeds for item in feed['items']]
 
 def entry_time(entry):
     if 'published_parsed' in entry:
-        t = entry['published_parsed']
+        return entry['published_parsed']
     elif 'updated_parsed' in entry:
-        t = entry['updated_parsed']
-    if t is not None:
-        return t
+        return entry['updated_parsed']
     else:
         return time.gmtime(0)
-entries = sorted([x for x in entries if entry_time(x) > last_read], key=entry_time)
+links = sorted([x.link for x in entries if entry_time(x) > last_read], key=entry_time)
 
-for x in entries:
-    webbrowser.open(x.link)
+for link in links:
+    webbrowser.open(link)
 
 last_read = time.gmtime()
 config['feed-browser'] = {'last-read': time.asctime(last_read)}
