@@ -47,6 +47,7 @@ entries = sorted([x for x in entries if entry_time(x) > last_read], key=entry_ti
 for x in entries:
     webbrowser.open(x.link)
 
-config['feed-browser'] = {'last-read': time.asctime()}
+last_read = time.gmtime()
+config['feed-browser'] = {'last-read': time.asctime(last_read)}
 with open(config_filename, 'w') as config_file:
     config.write(config_file)
