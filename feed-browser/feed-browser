@@ -42,8 +42,8 @@ def entry_time(entry):
         return time.gmtime(0)
 links = sorted([x.link for x in entries if entry_time(x) > last_read], key=entry_time)
 
-for link in links:
-    webbrowser.open(link)
+os.environ['BROWSER'] = ''
+[webbrowser.open(link) for link in links]
 
 last_read = time.gmtime()
 config['feed-browser'] = {'last-read': time.asctime(last_read)}
