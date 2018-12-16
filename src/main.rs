@@ -22,9 +22,20 @@ fn main() {
     let items = feed_urls.flat_map(|url| {
         match Channel::from_url(url) {
             Ok(items) => {items.into_items()},
+            //TODO should resolve relative URLs into absolute here
             _ => vec!{},
         }
     });
+    /*
+    items.clone().for_each(|i| {
+        match i.link() {
+            Some(l) => {
+                println!("{}", l);
+            }
+            _ => {},
+        }
+    });
+    */
     let new_items = items.filter(|item| {
         match item.pub_date() {
             Some(d) => {
