@@ -3,11 +3,12 @@ use rss::Channel;
 use chrono::prelude::*;
 use webbrowser;
 use xdg;
+use toml;
 
 fn main() {
     let xdg_dirs = xdg::BaseDirectories::with_prefix("feed-browser").unwrap();
-    let config_file = xdg_dirs.find_config_file("config.ini")
-        .expect("couldn't find file config.ini");
+    let config_file = xdg_dirs.find_config_file("config.toml")
+        .expect("couldn't find file config.toml");
     let feed_file = xdg_dirs.find_config_file("feeds.txt")
         .expect("couldn't find file feeds.txt");
     let mut first = true;

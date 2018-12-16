@@ -4,10 +4,19 @@ version = "0.1.0"
 authors = ["Patrick Gordon <pgpatrickgordon@gmail.com>"]
 edition = "2018"
 
+description = "Open unread RSS/ATOM Feeds entries in your browser"
+repository = "github.com/paddygord/feed-browser"
+readme = "readme.md"
+keywords = ["RSS", "ATOM", "feed", "browser"]
+categories = ["command-line-utilities"]
+license = "GPL-3.0-or-later"
+maintenance = { status = "actively-developed" }
+
 [dependencies]
 chrono = "0.4"
 webbrowser = "0.3"
 xdg = "2.1"
+toml = "0.4"
 
 [dependencies.rss]
 version = "1.6"
