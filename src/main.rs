@@ -6,14 +6,16 @@ use xdg;
 use rayon::prelude::*;
 
 fn main() {
-    let xdg_dirs = xdg::BaseDirectories::with_prefix("feed-browser").unwrap();
+    let xdg_dirs = xdg::BaseDirectories::with_prefix("feed-browser")
+        .expect("couldn't find XDG directories with prefix 'feed-browser'");
     let config_file = xdg_dirs.find_config_file("last-read.txt")
         .expect("couldn't find file last-read.txt");
     let feed_file = xdg_dirs.find_config_file("feeds.txt")
         .expect("couldn't find file feeds.txt");
     let last_read_string = fs::read_to_string(config_file.clone())
         .expect("something went wrong reading the file last-read.txt");
-    let last_read = DateTime::parse_from_rfc3339(&last_read_string.trim()).unwrap();
+    let last_read = DateTime::parse_from_rfc3339(&last_read_string.trim())
+        .expect("couldn't parse rfc3339 datetime in last-read.txt");
     let file_string = fs::read_to_string(feed_file)
         .expect("something went wrong reading the file feeds.txt");
     let feed_urls = file_string.par_lines();
@@ -40,7 +42,7 @@ fn main() {
             _ => None,
         }
     });
-    new_links.for_each(|l| {webbrowser::open(&l).unwrap();});
+    new_links.for_each(|l| {webbrowser::open(&l).expect("opening browser failed");});
 
     match fs::write(config_file, Utc::now().to_rfc3339()) {
         Err(_) => println!("failed to write current datetime back to config file"),
