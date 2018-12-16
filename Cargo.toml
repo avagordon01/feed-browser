@@ -5,7 +5,7 @@ authors = ["Patrick Gordon <pgpatrickgordon@gmail.com>"]
 edition = "2018"
 
 description = "Open unread RSS/ATOM Feeds entries in your browser"
-repository = "github.com/paddygord/feed-browser"
+repository = "https://github.com/paddygord/feed-browser"
 readme = "readme.md"
 keywords = ["RSS", "ATOM", "feed", "browser"]
 categories = ["command-line-utilities"]
