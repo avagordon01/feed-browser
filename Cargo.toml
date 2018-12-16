@@ -16,7 +16,6 @@ maintenance = { status = "actively-developed" }
 chrono = "0.4"
 webbrowser = "0.3"
 xdg = "2.1"
-toml = "0.4"
 rayon = "1.0"
 
 [dependencies.rss]

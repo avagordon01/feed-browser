@@ -3,7 +3,6 @@ use rss::Channel;
 use chrono::prelude::*;
 use webbrowser;
 use xdg;
-use toml;
 use rayon::prelude::*;
 
 fn main() {
