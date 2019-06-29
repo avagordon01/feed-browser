@@ -23,9 +23,9 @@ fn main() {
     let items = feed_urls.flat_map(|url| {
         match Channel::from_url(url) {
             Ok(mut channel) => {
-                let base_url = Url::parse(url).unwrap();
+                let base_url = Url::parse(url).expect("couldn't parse feed url (after having loaded it, wtf)");
                 for item in channel.items_mut() {
-                    let absolute_url = base_url.join(item.link().unwrap()).unwrap();
+                    let absolute_url = base_url.join(item.link().expect("item in channel has no link attr")).expect("couldn't join item url with channel url");
                     item.set_link(absolute_url.into_string());
                 }
                 channel.into_items()
