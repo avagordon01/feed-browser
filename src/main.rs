@@ -4,6 +4,7 @@ use chrono::prelude::*;
 use webbrowser;
 use xdg;
 use rayon::prelude::*;
+use url::Url;
 
 fn main() {
     let xdg_dirs = xdg::BaseDirectories::with_prefix("feed-browser")
@@ -21,21 +22,17 @@ fn main() {
     let feed_urls = file_string.par_lines();
     let items = feed_urls.flat_map(|url| {
         match Channel::from_url(url) {
-            Ok(items) => {items.into_items()},
-            //TODO should resolve relative URLs into absolute here
+            Ok(mut channel) => {
+                let base_url = Url::parse(url).unwrap();
+                for item in channel.items_mut() {
+                    let absolute_url = base_url.join(item.link().unwrap()).unwrap();
+                    item.set_link(absolute_url.into_string());
+                }
+                channel.into_items()
+            },
             _ => vec!{},
         }
     });
-    /*
-    items.clone().for_each(|i| {
-        match i.link() {
-            Some(l) => {
-                println!("{}", l);
-            }
-            _ => {},
-        }
-    });
-    */
     let new_items = items.filter(|item| {
         match item.pub_date() {
             Some(d) => {
