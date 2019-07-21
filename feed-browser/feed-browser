@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
 import os
 import sys
-import opml
 import feedparser
 import concurrent.futures
 import time
 import configparser
 import webbrowser
-import glob
-import itertools
 
 config_dir = os.environ.get('XDG_CONFIG_HOME') or os.path.expandvars(os.path.join('$HOME', '.config'))
 config_dir = os.path.join(config_dir, 'feed-browser')
@@ -21,9 +18,8 @@ except KeyError:
     last_read = time.gmtime(0)
 
 rss_urls = []
-for filename in glob.glob(os.path.join(config_dir, '*.opml')):
-    opml_file = opml.parse(filename)
-    rss_urls.extend([x.xmlUrl for x in itertools.chain.from_iterable(opml_file)])
+with open(os.path.join(config_dir, 'feeds.txt')) as f:
+    rss_urls = f.readlines()
 rss_urls = set(rss_urls)
 
 def load_url(rss_url):
