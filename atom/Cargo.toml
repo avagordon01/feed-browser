@@ -1,0 +1,10 @@
+[package]
+name = "atom"
+version = "0.1.0"
+authors = ["Patrick Gordon <pgpatrickgordon@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+reqwest = "0.9"
+atom_syndication = "0.6"
+url = "1.7.2"

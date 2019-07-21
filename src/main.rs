@@ -30,9 +30,12 @@ fn main() {
                 }
                 channel.into_items()
             },
-            _ => vec!{},
+            _ => {
+                vec!{}
+            },
         }
     });
+    return;
     let new_items = items.filter(|item| {
         match item.pub_date() {
             Some(d) => {
