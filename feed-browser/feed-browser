@@ -4,22 +4,21 @@ import sys
 import feedparser
 import concurrent.futures
 import time
-import configparser
 import webbrowser
 
 config_dir = os.environ.get('XDG_CONFIG_HOME') or os.path.expandvars(os.path.join('$HOME', '.config'))
 config_dir = os.path.join(config_dir, 'feed-browser')
-config_filename = os.path.join(config_dir, 'config.ini')
-config = configparser.ConfigParser()
-config.read(config_filename)
+config_filename = os.path.join(config_dir, 'last-read.txt')
 try:
-    last_read = time.strptime(config['feed-browser']['last-read'])
-except KeyError:
-    last_read = time.gmtime(0)
+    with open(config_filename) as config_file:
+        last_read = time.strptime(config_file.read().strip())
+except Exception as e:
+    print(e)
+    sys.exit()
 
 rss_urls = []
-with open(os.path.join(config_dir, 'feeds.txt')) as f:
-    rss_urls = f.readlines()
+with open(os.path.join(config_dir, 'feeds.txt')) as feeds_file:
+    rss_urls = feeds_file.readlines()
 rss_urls = set(rss_urls)
 
 def load_url(rss_url):
@@ -43,6 +42,5 @@ os.environ['BROWSER'] = ''
 
 if len(links) > 0:
     last_read = time.gmtime()
-    config['feed-browser'] = {'last-read': time.asctime(last_read)}
     with open(config_filename, 'w') as config_file:
-        config.write(config_file)
+        config_file.write(time.asctime(last_read))
