@@ -1,10 +1,16 @@
 #!/usr/bin/env python3
 import os
+import sys
 import feedparser
 import concurrent.futures
 import webbrowser
 import appdirs
 import pathlib
+
+dry_run = False
+for arg in sys.argv:
+    if arg == '--dry-run':
+        dry_run = True
 
 config_dir = pathlib.Path(appdirs.user_config_dir('feed-browser'))
 db_filename = config_dir / 'read.txt'
@@ -19,7 +25,10 @@ with concurrent.futures.ThreadPoolExecutor(max_workers = 256) as executor:
 entries = [item for feed in feeds for item in feed['items']]
 unread_links = [x.link for x in entries if x.link not in read_links]
 
-[webbrowser.open(link) for link in unread_links]
+if not dry_run:
+    [webbrowser.open(link) for link in unread_links]
+else:
+    print('\n'.join(unread_links))
 
 read_links.update(unread_links)
 with open(db_filename, 'w') as db_file:
